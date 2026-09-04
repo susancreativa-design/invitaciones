@@ -1,1 +1,195 @@
-# invitaciones
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Mágica - Estilo Harry Potter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Special+Elite&family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0b1013;
+            background-image: radial-gradient(circle, #1a2630 0%, #0b1013 100%);
+            color: #2c221e;
+            font-family: 'Special Elite', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .invitation-container {
+            background-color: #dfd2b9;
+            background-image: url('https://www.transparenttextures.com/patterns/old-mathematics.png'); /* Simula textura de pergamino/papel antiguo */
+            border: 4px solid #3b2b1e;
+            max-width: 600px;
+            width: 100%;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(90, 70, 40, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        /* Estilo tipo periódico antiguo (The Daily Prophet) */
+        .newspaper-header {
+            border-bottom: 3px double #2c221e;
+            border-top: 3px double #2c221e;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+
+        .newspaper-header h1 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            color: #1a1412;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-top: 5px;
+            color: #4a3b32;
+        }
+
+        /* Imagen principal o escudo */
+        .image-box {
+            width: 100%;
+            height: 250px;
+            background-color: #b5a48b;
+            border: 2px dashed #4a3b32;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(60%) contrast(120%);
+        }
+
+        .image-placeholder-text {
+            color: #4a3b32;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        /* Títulos de sección */
+        .main-title {
+            font-family: 'MedievalSharp', cursive;
+            font-size: 2.5rem;
+            color: #1a1412;
+            margin: 15px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .event-details {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 15px;
+            border: 1px solid #b5a48b;
+        }
+
+        .date-time {
+            font-weight: bold;
+            font-size: 1.4rem;
+            color: #5c1d1d;
+            margin: 10px 0;
+            font-family: 'Cinzel Decorative', serif;
+        }
+
+        /* Sección de confirmación */
+        .rsvp-section {
+            margin-top: 25px;
+            border-top: 2px dashed #4a3b32;
+            padding-top: 20px;
+        }
+
+        .rsvp-section p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-magic {
+            background-color: #2c221e;
+            color: #dfd2b9;
+            border: none;
+            padding: 12px 25px;
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-magic:hover {
+            background-color: #5c1d1d;
+            color: #ffffff;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #6c5c4f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invitation-container">
+        
+        <div class="newspaper-header">
+            <h1>El Profeta Diario</h1>
+            <div class="subtitle">Edición Especial Mágica</div>
+        </div>
+
+        <p style="font-style: italic; font-size: 1.1rem;">¡Se requiere tu mágica presencia para celebrar!</p>
+
+        <div class="image-box">
+            <span class="image-placeholder-text">[ Inserta aquí tu imagen_1.jpg o escudo de Hogwarts ]</span>
+        </div>
+
+        <h2 class="main-title">Solana Abigail</h2>
+        <p style="letter-spacing: 2px; font-size: 1.3rem; font-weight: bold;">CUMPLE 15</p>
+
+        <div class="event-details">
+            <p>El Gran Salón abrirá sus puertas en:</p>
+            <div class="date-time">SÁBADO 30 DE MARZO</div>
+            <p>A las <strong>20:00 Horas</strong></p>
+            <p style="margin-top: 10px; font-size: 1rem;">📍 Dirección: Salón de Eventos / Calle Mágica #645</p>
+        </div>
+
+        <div class="rsvp-section">
+            <p>Por favor, confirma tu asistencia mediante lechuza (o WhatsApp) antes del 20 de marzo.</p>
+            <a href="https://wa.me/5493510000000?text=Hola,%20confirmo%20mi%20asistencia%20al%20cumpleaños%20mágico." class="btn-magic" target="_blank">Confirmar Asistencia</a>
+        </div>
+
+        <footer>
+            Hechizo de diseño web creado para un día inolvidable &bull; Mischief Managed
+        </footer>
+
+    </div>
+
+</body>
+</html>
