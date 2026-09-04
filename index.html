@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitación Mágica - Estilo Harry Potter</title>
+    <!-- Importamos fuentes desde Google Fonts para darle la estética clásica -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Special+Elite&family=MedievalSharp&display=swap" rel="stylesheet">
     <style>
         * {
@@ -22,11 +23,134 @@
             align-items: center;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
         }
 
+        /* --- FASE 1: VENTANA EMERGENTE CON VIDEO (12 SEGUNDOS) --- */
+        .welcome-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(5, 8, 10, 0.98);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            transition: opacity 0.8s ease;
+        }
+
+        .modal-content {
+            background-color: #dfd2b9;
+            background-image: url('https://www.transparenttextures.com/patterns/old-mathematics.png');
+            border: 4px solid #3b2b1e;
+            max-width: 700px;
+            width: 100%;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(139, 30, 43, 0.6);
+            position: relative;
+        }
+
+        .modal-content h2 {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 1.8rem;
+            color: #1a1412;
+            margin-bottom: 15px;
+        }
+
+        .modal-content p {
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            color: #4a3b32;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            height: 0;
+            background: #000;
+            margin-bottom: 25px;
+            border: 2px solid #3b2b1e;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* --- FASE 2: CAPA INTERMEDIA DE IMAGEN FLOTANTE EN FONDO NEGRO --- */
+        #floatingLetterScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s ease;
+        }
+
+        .floating-container {
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* Animación de flotación */
+        .floating-image {
+            max-width: 380px;
+            width: 80%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+            animation: floatEffect 3s ease-in-out infinite;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.6s ease;
+        }
+
+        @keyframes floatEffect {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        /* Efecto al dar clic sobre la imagen flotante (zoom, rotación y brillo mágico) */
+        .floating-image.clicked-effect {
+            transform: scale(1.3) rotate(360deg);
+            filter: brightness(1.4) drop-shadow(0 0 25px #dfd2b9);
+            opacity: 0;
+        }
+
+        .floating-text {
+            color: #dfd2b9;
+            font-family: 'Cinzel Decorative', serif;
+            margin-top: 25px;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            animation: pulseText 2s infinite;
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        /* --- CONTENEDOR PRINCIPAL DE LA INVITACIÓN --- */
         .invitation-container {
             background-color: #dfd2b9;
-            background-image: url('https://www.transparenttextures.com/patterns/old-mathematics.png'); /* Simula textura de pergamino/papel antiguo */
+            background-image: url('https://www.transparenttextures.com/patterns/old-mathematics.png');
             border: 4px solid #3b2b1e;
             max-width: 600px;
             width: 100%;
@@ -34,9 +158,9 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), inset 0 0 50px rgba(90, 70, 40, 0.3);
             text-align: center;
             position: relative;
+            display: none; /* Oculto inicialmente hasta completar la secuencia */
         }
 
-        /* Estilo tipo periódico antiguo (The Daily Prophet) */
         .newspaper-header {
             border-bottom: 3px double #2c221e;
             border-top: 3px double #2c221e;
@@ -60,7 +184,6 @@
             color: #4a3b32;
         }
 
-        /* Imagen principal o escudo */
         .image-box {
             width: 100%;
             height: 250px;
@@ -87,7 +210,6 @@
             font-style: italic;
         }
 
-        /* Títulos de sección */
         .main-title {
             font-family: 'MedievalSharp', cursive;
             font-size: 2.5rem;
@@ -113,7 +235,6 @@
             font-family: 'Cinzel Decorative', serif;
         }
 
-        /* Sección de confirmación */
         .rsvp-section {
             margin-top: 25px;
             border-top: 2px dashed #4a3b32;
@@ -157,7 +278,35 @@
 </head>
 <body>
 
-    <div class="invitation-container">
+    <!-- FASE 1: VENTANA EMERGENTE CON VIDEO (Limitado a 12s) -->
+    <div id="welcomeModal" class="welcome-modal">
+        <div class="modal-content">
+            <h2>¡Una carta ha llegado de Hogwarts!</h2>
+            <p>Disfruta la introducción mágica...</p>
+            
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/Y2selj1-4tk?autoplay=1&mute=0&end=12" title="Invitación Mágica" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <button id="skipModalBtn" class="btn-magic">Omitir y Continuar</button>
+        </div>
+    </div>
+
+    <!-- FASE 2: PANTALLA NEGRA CON IMAGEN FLOTANTE (5 Segundos / Hasta Clic) -->
+    <div id="floatingLetterScreen">
+        <div class="floating-container" id="floatingTrigger">
+            <!-- Ruta principal sugerida con ruta alterna segura (Unsplash/Magnific adaptada) -->
+            <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=740&auto=format&fit=crop" 
+                 onerror="this.src='https://img.magnific.com/psd-gratis/carta-sellada-antigua-misiva-epoca_191095-82877.jpg?semt=ais_hybrid&w=740&q=80';" 
+                 alt="Carta Sellada Antigua" 
+                 class="floating-image" 
+                 id="floatingImg">
+            <div class="floating-text">✨ Haz clic en la carta para abrirla ✨</div>
+        </div>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DE LA INVITACIÓN -->
+    <div id="mainInvitation" class="invitation-container">
         
         <div class="newspaper-header">
             <h1>El Profeta Diario</h1>
@@ -170,26 +319,91 @@
             <span class="image-placeholder-text">[ Inserta aquí tu imagen_1.jpg o escudo de Hogwarts ]</span>
         </div>
 
-        <h2 class="main-title">Susana Cecilia</h2>
+        <h2 class="main-title">CECILIA</h2>
         <p style="letter-spacing: 2px; font-size: 1.3rem; font-weight: bold;">CUMPLE 13</p>
 
         <div class="event-details">
             <p>El Gran Salón abrirá sus puertas en:</p>
             <div class="date-time">SÁBADO 19 DE SEPTIEMBRE</div>
-            <p>A las <strong>10:00 Horas</strong></p>
-            <p style="margin-top: 10px; font-size: 1rem;">📍 Dirección: 11 PTE 1305 DEP 302</p>
+            <p>A las <strong>10:00 AM</strong></p>
+            <p style="margin-top: 10px; font-size: 1rem;">📍 Dirección: 11 pte 1305 dep 302</p>
         </div>
 
         <div class="rsvp-section">
-            <p>Por favor, confirma tu asistencia mediante lechuza (o WhatsApp) antes del 10 de Septiembre.</p>
+            <p>Por favor, confirma tu asistencia mediante lechuza (o WhatsApp) antes del 20 de marzo.</p>
             <a href="https://wa.me/2474758126?text=Hola,%20confirmo%20mi%20asistencia%20al%20cumpleaños%20mágico." class="btn-magic" target="_blank">Confirmar Asistencia</a>
         </div>
 
         <footer>
-            Hechizo de diseño web creado para un día inolvidable Susan Creativa
+            Hechizo de diseño web creado para un día inolvidable &bull; SUSAN CREATIVA
         </footer>
 
     </div>
+
+    <!-- SCRIPT DE TRANSICIÓN AUTOMÁTICA Y POR CLIC -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const welcomeModal = document.getElementById('welcomeModal');
+            const skipModalBtn = document.getElementById('skipModalBtn');
+            const iframeVideo = welcomeModal.querySelector('iframe');
+            
+            const floatingLetterScreen = document.getElementById('floatingLetterScreen');
+            const floatingTrigger = document.getElementById('floatingTrigger');
+            const floatingImg = document.getElementById('floatingImg');
+            const mainInvitation = document.getElementById('mainInvitation');
+
+            let transitionTriggered = false;
+
+            // Función para pasar del Video a la Imagen Flotante
+            function showFloatingLetter() {
+                if (transitionTriggered) return;
+                transitionTriggered = true;
+
+                // Apagar video
+                iframeVideo.src = '';
+                welcomeModal.style.opacity = '0';
+                
+                setTimeout(() => {
+                    welcomeModal.style.display = 'none';
+                    // Mostrar pantalla negra con la imagen flotante
+                    floatingLetterScreen.style.opacity = '1';
+                    floatingLetterScreen.style.pointerEvents = 'auto';
+
+                    // Temporizador opcional de seguridad: si pasa 5 segundos y no dan clic, se habilita o transiciona suavemente
+                    setTimeout(() => {
+                        // Opcional: si quieres que transicione solo o espere el clic. Aquí espera el clic como pediste, 
+                        // pero los 5 segundos de fondo negro se cumplen visualmente en este estado.
+                    }, 5000);
+
+                }, 800);
+            }
+
+            // Transición al hacer clic en la imagen flotante (con el efecto de zoom/giro solicitado)
+            floatingTrigger.addEventListener('click', () => {
+                floatingImg.classList.add('clicked-effect');
+                
+                setTimeout(() => {
+                    floatingLetterScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        floatingLetterScreen.style.display = 'none';
+                        // Mostrar invitación principal con animación suave
+                        mainInvitation.style.display = 'block';
+                        mainInvitation.style.opacity = '0';
+                        mainInvitation.style.transition = 'opacity 1s ease';
+                        setTimeout(() => mainInvitation.style.opacity = '1', 50);
+                    }, 600);
+                }, 500); // Duración de la animación en la imagen antes de abrir
+            });
+
+            // Botón de omitir del modal de video
+            skipModalBtn.addEventListener('click', showFloatingLetter);
+
+            // Como el video dura 12 segundos, programamos un temporizador de 12 segundos para avanzar automáticamente a la imagen flotante
+            setTimeout(() => {
+                showFloatingLetter();
+            }, 12000);
+        });
+    </script>
 
 </body>
 </html>
